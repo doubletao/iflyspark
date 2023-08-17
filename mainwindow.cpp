@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QMessageBox>
+#include <QScrollBar>
 
 #include "include/aikit_spark_api.h"
 #include "include/aikit_biz_config.h"
@@ -12,20 +13,19 @@ static void chatTokenCount(AIKIT::AIChat_Handle* handle, const int& completionTo
     if (handle && handle->usrContext)
     {
         MainWindow *pThis = static_cast<MainWindow *>(handle->usrContext);
-        QString strTxt = QString("---handleID[%1]abilityID[%2]completionTokens[%3]promptTokens[%4]totalTokens[%5]---\n")
+        QString strTxt = QString("\n-------------handleID[%1]abilityID[%2]completionTokens[%3]promptTokens[%4]totalTokens[%5]-----------\n\n")
                 .arg(handle->handleID).arg(handle->abilityID)
                 .arg(completionTokens).arg(promptTokens).arg(totalTokens);
         emit pThis->sigAppendRecv(strTxt);
     }
 }
-static void chatOnOutput(AIKIT::AIChat_Handle* handle, const char* role, const  char* content, const int& index)
+static void chatOnOutput(AIKIT::AIChat_Handle* handle, const char* /*role*/, const  char* content, const int& /*index*/)
 {
     if (handle && handle->usrContext)
     {
         MainWindow *pThis = static_cast<MainWindow *>(handle->usrContext);
-        QString strTxt = QString("content[%1]handleID[%2]abilityID[%3]role[%4]index[%5]\n")
-                .arg(content).arg(handle->handleID).arg(handle->abilityID)
-                .arg(role).arg(index);
+        QString strTxt = QString("%1")
+                .arg(content);
         emit pThis->sigAppendRecv(strTxt);
     }
 }
@@ -34,7 +34,7 @@ static void chatOnError(AIKIT::AIChat_Handle* handle, const int& err, const char
     if (handle && handle->usrContext)
     {
         MainWindow *pThis = static_cast<MainWindow *>(handle->usrContext);
-        QString strTxt = QString("errDesc[%1]handleID[%2]abilityID[%3]err[%4]\n")
+        QString strTxt = QString("errDesc[%1]handleID[%2]abilityID[%3]err[%4]\n\n")
                 .arg(errDesc).arg(handle->handleID).arg(handle->abilityID)
                 .arg(err);
         emit pThis->sigAppendRecv(strTxt);
@@ -52,9 +52,9 @@ MainWindow::MainWindow(QWidget *parent)
         .log()
         .logLevel(100) //设置日志等级，0:verbose
         .app()
-        .appID("yourAppID")
-        .apiKey("yourApiKey")
-        .apiSecret("yourApiSecret");
+        .appID("595da6f8")
+        .apiKey("09c6299749695df87e5b60f4f67d4f39")
+        .apiSecret("6e900846f024d7de85e8c5b53f2dd9d4");
     //SDK初始化
     int ret = AIKIT::AIKIT_Init();
     if (ret != 0) {
@@ -91,6 +91,9 @@ void MainWindow::on_btn_send_clicked()
         ->uid("xxx_uid")
         ->maxToken(4096);
 
+    emit sigAppendRecv("<<<<<" + strSend + "\n>>>>>");
+    ui->txt_send->clear();
+
     int ret = AIKIT::AIKIT_AsyncChat(config, strSend.toStdString().c_str(), this);//文本数据输入输出以UTF-8编码格式
     if (ret != 0) {
         QString strMsg = QString("AIKIT_AsyncChat failed:%1,check appid key secret whether been set").arg(ret);
@@ -100,6 +103,17 @@ void MainWindow::on_btn_send_clicked()
 
 void MainWindow::slotAppendRecv(const QString &strTxt)
 {
-    ui->txt_recv->appendPlainText(strTxt);
+    QString strText = ui->txt_recv->toPlainText();
+    strText.append(strTxt);
+    ui->txt_recv->setPlainText(strText);
+
+    QScrollBar* scrollbar = ui->txt_recv->verticalScrollBar();
+    scrollbar->setValue(scrollbar->maximum());
+}
+
+
+void MainWindow::on_MainWindow_destroyed()
+{
+    AIKIT::AIKIT_UnInit();
 }
 

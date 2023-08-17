@@ -24,6 +24,8 @@ private slots:
 
     void slotAppendRecv(const QString &strTxt);
 
+    void on_MainWindow_destroyed();
+
 private:
     Ui::MainWindow *ui;
 };
