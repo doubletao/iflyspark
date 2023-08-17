@@ -18,6 +18,10 @@ HEADERS += \
 FORMS += \
     mainwindow.ui
 
+PRO_DIR = $$PWD
+
+LIBS += -L$$PWD/libs/x64 -llibaikit
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin

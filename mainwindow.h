@@ -15,6 +15,15 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+signals:
+    void sigAppendRecv(const QString &);
+
+private slots:
+    void on_btn_clear_clicked();
+    void on_btn_send_clicked();
+
+    void slotAppendRecv(const QString &strTxt);
+
 private:
     Ui::MainWindow *ui;
 };
