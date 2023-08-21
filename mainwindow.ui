@@ -47,6 +47,23 @@
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
+          <widget class="QComboBox" name="comboBox_version">
+           <property name="currentText">
+            <string>v1.5</string>
+           </property>
+           <item>
+            <property name="text">
+             <string>v1.5</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>v2</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
           <widget class="QPushButton" name="btn_clear">
            <property name="text">
             <string>clear</string>

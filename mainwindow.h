@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <map>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -15,6 +16,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    std::map<int, QString> m_mapErrInfo;
 signals:
     void sigAppendRecv(const QString &);
 
@@ -25,7 +27,6 @@ private slots:
     void slotAppendRecv(const QString &strTxt);
 
     void on_MainWindow_destroyed();
-
 private:
     Ui::MainWindow *ui;
 };
