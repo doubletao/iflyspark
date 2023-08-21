@@ -163,12 +163,14 @@ void MainWindow::on_btn_send_clicked()
     {
         config->domain("general")
             ->uid("xxx_uid")
+            ->url("ws://spark-api.xf-yun.com/v1.1/chat")
             ->maxToken(4096);
     }
     else if (strVersion == "v2")
     {
         config->domain("generalv2")
             ->uid("xxx_uid")
+            ->url("ws://spark-api.xf-yun.com/v2.1/chat")
             ->maxToken(4096);
     }
 
