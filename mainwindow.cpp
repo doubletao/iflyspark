@@ -6,6 +6,7 @@
 #include "include/aikit_spark_api.h"
 #include "include/aikit_biz_config.h"
 #include "include/aikit_err.h"
+#include "customplaintextedit.h"
 
 #if _MSC_VER >= 1600
 #pragma execution_character_set("utf-8")
@@ -78,6 +79,8 @@ MainWindow::MainWindow(QWidget *parent)
     AIKIT::AIKIT_ChatCallback({ chatOnOutput, chatTokenCount, chatOnError });
 
     connect(this, &MainWindow::sigAppendRecv, this, &MainWindow::slotAppendRecv);
+
+    connect(ui->txt_send, &CustomPlainTextEdit::sendButtonClicked, this, &MainWindow::on_btn_send_clicked);
 
     m_mapErrInfo.insert(std::make_pair(0,"成功"));
     m_mapErrInfo.insert(std::make_pair(10000,"升级为ws出现错误"));

@@ -32,7 +32,7 @@
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QPlainTextEdit" name="txt_send">
+        <widget class="CustomPlainTextEdit" name="txt_send">
          <property name="maximumSize">
           <size>
            <width>16777215</width>
@@ -102,6 +102,13 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CustomPlainTextEdit</class>
+   <extends>QPlainTextEdit</extends>
+   <header>customplaintextedit.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
